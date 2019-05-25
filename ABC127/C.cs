@@ -11,36 +11,32 @@ namespace ABC127
             string[] s = Console.ReadLine().Split(' ');
             int[] n = s.Select(x => int.Parse(x)).ToArray();
 
-            var s1 = new List<string>();
+            int RR = n[0];
+            int LL = 1;
+            int L, R = 1;
+
             for (int i = 0; i < n[1]; i++)
             {
-                s1.Add(Console.ReadLine());
-            }
+                s = Console.ReadLine().Split(' ');
+                L = int.Parse(s[0]);
+                R = int.Parse(s[1]);
 
-            string[] s4;
-            int result;
-            int result2 = 0;
-            int nmin;
-            int nmax;
-            for (int i = 1; i <= n[0]; i++)
-            {
-                result = 0;
-                foreach (string s3 in s1)
+                if (LL > R || RR < L)
                 {
-                    s4 = s3.Split(' ');
-                    nmin = int.Parse(s4[0]);
-                    nmax = int.Parse(s4[1]);
-
-                    if (nmin <= i && i <= nmax)
-                        result++;
-                    else
-                        break;
-                    if (result == n[1]) result2++;
+                    Console.WriteLine(0);
+                    return;
                 }
 
-                Console.WriteLine(i);
+                if (LL < L)
+                {
+                    LL = L;
+                }
+                if (R < RR)
+                {
+                    RR = R;
+                }
             }
-            Console.WriteLine(result2);
+            Console.WriteLine(RR - LL + 1);
         }
     }
 }
