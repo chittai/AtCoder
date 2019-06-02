@@ -60,9 +60,9 @@ namespace AGC034
             {
                 var result1 = HaveTwoSharp(s1, A, C);
                 var result2 = HaveTwoSharp(s1, B, D);
-                var result3 = HaveThreeDot(s1, A, C);
-                var result4 = HaveDotBD(s1, B);
-                var result5 = HaveDotBD(s1, D);
+                var result3 = HaveThreeDot(s1, B, D);
+                //var result4 = HaveDotBD(s1, B);
+                //var result5 = HaveDotBD(s1, D);
 
                 if (!result1 && !result2 && result3)
                 {
