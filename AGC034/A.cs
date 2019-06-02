@@ -86,7 +86,7 @@ namespace AGC034
 
         static bool HaveThreeDot(string s, int start, int end)
         {
-            char[] c = s.Skip(start - 2).Take(end - start + 2).ToArray();
+            char[] c = s.Skip(start - 1).Take(end - start + 2).ToArray();
             string s2 = new string(c);
             return s2.Contains("...");
         }
@@ -101,7 +101,6 @@ namespace AGC034
             Console.WriteLine("c2" + c2);
             Console.WriteLine("c3" + c3);
 
-            var result = false;
             if (c1 == '.' && c2 == '.' && c3 == '.')
                 return true;
             else
