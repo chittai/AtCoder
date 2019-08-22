@@ -40,6 +40,10 @@ namespace ABC007
                 int x = q.Dequeue();
                 step = q.Dequeue();
 
+                //Console.WriteLine("y : " + y);
+                //Console.WriteLine("x : " + x);
+                //Console.WriteLine("step : " + step);
+
                 if (y == gy && x == gx)
                 {
                     Console.WriteLine(step);
@@ -53,10 +57,12 @@ namespace ABC007
                     if (map[y][x + 1] == '.') { q.Enqueue(y); q.Enqueue(x + 1); q.Enqueue(step + 1); }
                     if (map[y][x - 1] == '.') { q.Enqueue(y); q.Enqueue(x - 1); q.Enqueue(step + 1); }
 
-                    map[sy] = CharSwap(map[sy], sx);
+                    map[y] = CharSwap(map[y], x);
+                    //Console.WriteLine(map[y]);
                 }
             }
         }
+
         static string CharSwap(string s, int x)
         {
             char[] c = s.ToCharArray();
