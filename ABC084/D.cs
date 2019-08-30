@@ -42,7 +42,7 @@ namespace ABC084
             int k = 0;
             for (int j = 0; j < Q; j++)
             {
-                k = s[r[j] - 1] - s[l[j] - 1];
+                k = s[r[j]] - s[l[j] - 1];
                 if (r[j] == l[j] && (IsPrimeNumber(r[j]) && IsPrimeNumber((r[j] + 1) / 2))) { k = 1; }
                 Console.WriteLine(k);
             }
