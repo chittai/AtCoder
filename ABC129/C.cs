@@ -16,10 +16,10 @@ namespace ABC129
             {
                 a[i] = long.Parse(Console.ReadLine());
             }
-            Console.WriteLine(CalcStep(1, N, a) + CalcStep(2, N, a));
+            Console.WriteLine(CalcStep(N - 1, a) + CalcStep(N - 1, a));
         }
 
-        static long CalcStep(long x, long N, long[] M)
+        static long CalcStep(long N, long[] M)
         {
 
             long ans1 = 0;
@@ -28,19 +28,16 @@ namespace ABC129
             // 今の段
             if (N == 0) { return 1; }
             // 次の段の評価
-            if (x == 1)
+            if (0 <= N && !M.Contains(N))
             {
-                N -= 1;
-                if (0 <= N && !M.Contains(N)) { ans1 += CalcStep(1, N, M); }
+                ans1 += (CalcStep(N - 1, M)) % 1000000007;
+            }
+            if (0 <= N && !M.Contains(N))
+            {
+                ans2 += CalcStep(N - 2, M) % 1000000007;
             }
 
-            if (x == 2)
-            {
-                N -= 2;
-                if (0 <= N && !M.Contains(N)) { ans2 += CalcStep(2, N, M); }
-            }
             return ans1 + ans2;
         }
-
     }
 }
