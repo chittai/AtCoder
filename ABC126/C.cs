@@ -4,41 +4,30 @@ using System.Linq;
 
 namespace ABC126
 {
-    class Program
+    class C
     {
         static void Main(string[] args)
         {
-            string[] s1 = Console.ReadLine().Split(' ');
-            double[] n1 = s1.Select(x => double.Parse(x)).ToArray();
-
-            int[] n2 = s1.Select(x => int.Parse(x)).ToArray();
-            double[] n = new double[n2[0]];
-
-            double p = 1;
-            for (int i = 0; i < n2[0]; i++)
-            {
-                while (n2[1] <= i * Math.Pow(2, p))
-                {
-                    p++;
-                }
-                n[i] = p;
-            }
+            string[] input = Console.ReadLine().Split(' ');
+            double N = double.Parse(input[0]);
+            double K = double.Parse(input[1]);
 
             double d = 0;
-            for (int i = 0; i < n1[0]; i++)
+            double point = 0;
+            for (double i = 1; i <= N; i++)
             {
-                if (i < n1[1])
+                point = i;
+                for (double j = 0; j <= 17; j++)
                 {
-                    d += (1 / n1[0]) * (Math.Pow(0.5, n[i]));
-                    Console.WriteLine(d);
-                }
-                else
-                {
-                    d += (1 / n1[0]);
-                    Console.WriteLine(d);
+                    if (K <= point)
+                    {
+                        d += ((1 / N) * Math.Pow(0.5, j));
+                        break;
+                    }
+                    point = point * 2.0;
                 }
             }
-
+            Console.WriteLine(d);
         }
     }
 }
