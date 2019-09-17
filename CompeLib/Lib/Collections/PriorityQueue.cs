@@ -4,34 +4,22 @@ using System.Text;
 
 namespace Collections
 {
-    /// <summary>
-    /// 優先度付き待ち行列
-    /// </summary>
-    /// <typeparam name="T">要素の型</typeparam>
-    class PriorityQueue<T>
-      where T : IComparable<T>
+    class PriorityQueue<T> where T : IComparable<T>
     {
-        #region フィールド
+        List<T> buffer;
 
-        ArrayList<T> buffer;
+        public PriorityQueue() { this.buffer = new List<T>(); }
+        public PriorityQueue(int capacity) { this.buffer = new List<T>(capacity); }
 
-        #endregion
-        #region 初期化
-
-        public PriorityQueue() { this.buffer = new ArrayList<T>(); }
-        public PriorityQueue(int capacity) { this.buffer = new ArrayList<T>(capacity); }
-
-        #endregion
-        #region ヒープ操作
 
         /// <summary>
         /// ヒープ化されている配列リストに新しい要素を追加する。
         /// </summary>
         /// <param name="array">対象の配列リスト</param>
-        static void PushHeap(ArrayList<T> array, T elem)
+        static void PushHeap(List<T> array, T elem)
         {
             int n = array.Count;
-            array.InsertLast(elem);
+            array.Add(elem);
 
             while (n != 0)
             {
@@ -48,11 +36,11 @@ namespace Collections
         /// ヒープから最大値を削除する。
         /// </summary>
         /// <param name="array">対象の配列リスト</param>
-        static void PopHeap(ArrayList<T> array)
+        static void PopHeap(List<T> array)
         {
             int n = array.Count - 1;
             array[0] = array[n];
-            array.EraseLast();
+            array.RemoveAt(array.Count - 1);
 
             for (int i = 0, j; (j = 2 * i + 1) < n;)
             {
@@ -66,14 +54,11 @@ namespace Collections
             }
         }
 
-        #endregion
-        #region 要素の挿入・削除
-
         /// <summary>
         /// 要素のプッシュ。
         /// </summary>
         /// <param name="elem">挿入したい要素</param>
-        public void Push(T elem)
+        public void Enqueue(T elem)
         {
             PushHeap(this.buffer, elem);
         }
@@ -86,7 +71,7 @@ namespace Collections
         /// この Pop では削除のみ。
         /// 読み出しには Top プロパティを使う。
         /// </remarks>
-        public void Pop()
+        public void Dequeue()
         {
             PopHeap(this.buffer);
         }
@@ -103,7 +88,5 @@ namespace Collections
         {
             get { return this.buffer.Count; }
         }
-
-        #endregion
     }
 }
