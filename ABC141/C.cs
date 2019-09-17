@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ABC141
 {
-    class D
+    class C
     {
         static void Main(string[] args)
         {
@@ -11,34 +12,21 @@ namespace ABC141
             string[] input = Console.ReadLine().Split(' ');
 
             int N = int.Parse(input[0]);
-            int M = int.Parse(input[1]);
+            int K = int.Parse(input[1]);
+            int Q = int.Parse(input[2]);
 
-            input = Console.ReadLine().Split(' ');
-            double[] A = new double[N];
+            int[] P = new int[N];
+
+            for (int i = 0; i < Q; i++)
+            {
+                int a = int.Parse(Console.ReadLine());
+                P[a - 1] += 1;
+            }
+
             for (int i = 0; i < N; i++)
             {
-                A[i] = double.Parse(input[i]);
+                if (K <= (Q - P[i])) { Console.WriteLine("No"); } else { Console.WriteLine("Yes"); }
             }
-
-
-
-            for (int i = 0; i < M; i++)
-            {
-                A = A.OrderByDescending(x => x).ToArray();
-                A[0] = (Math.Floor(A[0] * (0.5)));
-            }
-
-            double sum = 0;
-            foreach (var x in A)
-            {
-                sum += x;
-            }
-
-            Console.WriteLine(sum);
-
-            //foreach (var i in A) { Console.WriteLine(i); }
-            //Console.WriteLine(Math.Floor(5 * (0.5)));
-
         }
     }
 }
