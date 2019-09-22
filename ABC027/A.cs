@@ -7,21 +7,14 @@ namespace ABC027
     {
         static void Main(string[] args)
         {
-            string[] input = Console.ReadLine().Split();
-            int N = int.Parse(input[0]);
-            int x = int.Parse(input[1]);
+            int[] l = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-            int[] a = Console.ReadLine().Split().Select(int.Parse).OrderBy(y => y).ToArray();
+            int ans = 0;
+            if (l[0] == l[1]) ans = l[2];
+            if (l[1] == l[2]) ans = l[0];
+            if (l[0] == l[2]) ans = l[1];
 
-            int count = 0;
-            for (int i = 0; i < N; i++)
-            {
-                x -= a[i];
-                if (0 <= x) count++;
-                if (x < 0) break;
-            }
-            if (0 < x) count--;
-            Console.WriteLine(count);
+            Console.WriteLine(ans);
         }
     }
 }
