@@ -16,32 +16,23 @@ namespace ABC061
             int N = input[0];
             int M = input[1];
 
-            Dictionary<int, int> dict = new Dictionary<int, int>();
-
+            int[] A = new int[N];
             int a = 0;
             int b = 0;
-
             for (int i = 0; i < M; i++)
             {
                 input = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-                a = input[0];
-                b = input[1];
+                a = input[0] - 1;
+                b = input[1] - 1;
 
-                if (!dict.ContainsKey(a)) { dict.Add(a, 0); }
-                if (!dict.ContainsKey(b)) { dict.Add(b, 0); }
-
-                if (dict.ContainsKey(a)) { dict[a]++; }
-                if (dict.ContainsKey(b)) { dict[b]++; }
-
+                A[a]++;
+                A[b]++;
             }
 
-            var res = dict.OrderBy(x => x.Key);
-
-            for (int i = 1; i <= N; i++)
+            for (int i = 0; i < N; i++)
             {
-                if (!dict.ContainsKey(i)) Console.WriteLine(0);
-                else Console.WriteLine(dict[i]);
+                Console.WriteLine(A[i]);
             }
         }
     }
