@@ -17,9 +17,14 @@ namespace ABC127
             long[] C = new long[M];
 
             Dictionary<long, long> dict = new Dictionary<long, long>();
+
             for (long i = 0; i < N; i++)
             {
-                if (!dict.ContainsKey(a[i])) dict.Add(a[i], a.Count(x => x == a[i]));
+                if (!dict.ContainsKey(a[i])) dict.Add(a[i], 0);
+                if (dict.ContainsKey(a[i])) dict[a[i]]++;
+
+                /* この実装だとTLEになる */
+                //if (!dict.ContainsKey(a[i])) dict.Add(a[i], a.Count(x => x == a[i]));
             }
 
             for (long i = 0; i < M; i++)
@@ -43,15 +48,6 @@ namespace ABC127
             }
 
             Console.WriteLine(res);
-
-            /*
-            foreach (var item in dict2)
-            {
-                Console.Write(item.Key);
-                Console.Write(' ');
-                Console.WriteLine(item.Value);
-            }
-            */
         }
     }
 }
