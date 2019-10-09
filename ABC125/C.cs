@@ -7,32 +7,30 @@ namespace ABC125
     {
         static void Main(string[] args)
         {
-            int n = int.Parse(Console.ReadLine());
+            int N = int.Parse(Console.ReadLine());
+            int[] A = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-            string[] a = Console.ReadLine().Split(' ');
-            int[] an = a.Select(x => int.Parse(x)).ToArray();
+            long[] lgcd = new long[N + 1];
+            long[] rgcd = new long[N + 1];
 
-            int result = 0;
-            for (int i = 0; i < n - 1; i++)
+            for (int i = 0; i < N; i++)
             {
-                var gcd = Gcd(an[i], an[i + 1]);
-                if (result <= gcd) result = gcd;
+                lgcd[i + 1] = CalcGCD(lgcd[i], A[i]);
+                rgcd[N - i - 1] = CalcGCD(rgcd[N - i], A[N - 1 - i]);
             }
 
-            Console.WriteLine(result);
+            long res = 0;
+            for (int i = 0; i < N; i++)
+            {
+                res = Math.Max(res, CalcGCD(lgcd[i], rgcd[i + 1]));
+            }
+            Console.WriteLine(res);
+
         }
-
-        public static int Gcd(int a, int b)
+        public static long CalcGCD(long a, long b)
         {
-            if (a < b)
-                return Gcd(b, a);
-            while (b != 0)
-            {
-                var remainder = a % b;
-                a = b;
-                b = remainder;
-            }
-            return a;
+            if (b == 0) { return a; }
+            return CalcGCD(b, a % b);
         }
     }
 }
