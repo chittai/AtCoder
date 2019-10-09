@@ -6,6 +6,15 @@ using System.Linq;
 
 namespace Etc
 {
+
+    class GCD
+    {
+        public static long CalcGCD(long a, long b)
+        {
+            if (b == 0) { return a; }
+            return CalcGCD(b, a % b);
+        }
+    }
     class Combination
     {
         // Combination
