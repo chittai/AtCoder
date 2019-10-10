@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ABC138
 {
@@ -32,40 +31,22 @@ namespace ABC138
                 if (!dict.ContainsKey(t[i])) { Console.WriteLine(-1); return; }
             }
 
-            //<--debug
-            //for (int i = 0; i < t.Length; i++)
-            //{
-            //    Console.WriteLine(string.Join(" ", dict[t[i]]));
-            //}
-            //debug-->
-
-            long count = 0;
-            long current = 0;
+            long current = -1;
             int index = 0;
+            long turn = 0;
 
             foreach (var c in t)
             {
                 var list = dict[c];
 
-                index = list.BinarySearch(current);
+                index = list.BinarySearch(current + 1);
                 if (index < 0) { index = ~index; }
-                if (list.Count <= index) { index = 0; }
+                if (list.Count <= index) { index = 0; turn++; }
 
-                if (list[index] < current)
-                {
-                    count += (long)s.Length - (current + 1) + list[index] + 1;
-                    current = list[index];
-                }
-                else
-                {
-
-                    count += list[index] - current;
-                    current = list[index];
-                }
-                //Console.WriteLine("count : " + count);
+                current = list[index];
             }
 
-            Console.WriteLine(count);
+            Console.WriteLine((long)s.Length * turn + current + 1);
         }
     }
 }
