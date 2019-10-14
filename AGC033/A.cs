@@ -1,77 +1,88 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Collections.Generic;
+
 namespace AGC033
 {
-    class Program
+    class A
     {
         static void Main(string[] args)
         {
-            string[] a = Console.ReadLine().Split(' ');
-            int[] an = a.Select(x => int.Parse(x)).ToArray();
+            int[] input = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            int H = input[0];
+            int W = input[1];
 
-            string[] b = new string[an[0]];
-            for (int i = 0; i < an[0]; i++)
+            // "0" の時が白('.')、"1"の時が黒('#')
+            int[,] A = new int[H, W];
+            string S;
+
+            Queue<Tuple<int, int>> q = new Queue<Tuple<int, int>>();
+
+            for (int i = 0; i < H; i++)
             {
-                b[i] = Console.ReadLine();
-            }
-
-            string[] blackposition = new string[an[0] * an[1]];
-            string[] whiteposition = new string[an[0] * an[1]];
-
-            int countb = 0;
-            int countw = 0;
-            for (int i = 0; i < an[0]; i++)
-            {
-                for (int j = 0; j < an[1]; j++)
+                S = Console.ReadLine();
+                //S = sr.ReadLine();
+                for (int j = 0; j < W; j++)
                 {
-                    if (b[i][j] == '#')
-                    {
-                        blackposition[countb] = (i.ToString()) + (j.ToString());
-                        //Console.WriteLine(blackposition[0][0]);
-                        countb++;
-                    }
-
-                    if (b[i][j] == '.')
-                    {
-                        whiteposition[countw] = (i.ToString()) + (j.ToString());
-                        countw++;
-                    }
+                    A[i, j] = (S[j] == '.' ? 0 : 1);
+                    if (A[i, j] == 1) q.Enqueue(Tuple.Create(i, j));
                 }
             }
 
-            int result = 0;
+            int conut = 0;
+            bool isChange = false;
+            int len = q.Count;
+            Tuple<int, int> t;
 
-            int wx = 0;
-            int wy = 0;
-
-            int bx = 0;
-            int by = 0;
-
-            for (int i = 0; i < whiteposition.Length; i++)
+            while (q.Count > 0)
             {
-                if (whiteposition[i] != null)
+                t = q.Dequeue();
+                int h = t.Item1;
+                int w = t.Item2;
+
+                int u = t.Item1 - 1;
+                int d = t.Item1 + 1;
+                int l = t.Item2 - 1;
+                int r = t.Item2 + 1;
+
+                // 上
+                if (0 <= u && A[u, w] == 0)
                 {
-                    wx = (whiteposition[i][0] - '0');
-                    wy = (whiteposition[i][1] - '0');
-
+                    A[u, w] = 1;
+                    q.Enqueue(Tuple.Create(u, w));
+                    isChange = true;
                 }
-                for (int j = 0; j < blackposition.Length; j++)
+
+                // 下
+                if (d < H && A[d, w] == 0)
                 {
-                    if (blackposition[j] != null)
-                    {
-                        bx = (blackposition[j][0] - '0');
-                        by = (blackposition[j][1] - '0');
-                    }
-
-                    if (Math.Abs(wx - bx) + Math.Abs(wy - by) > result)
-                    {
-                        result = Math.Abs(wx - bx) + Math.Abs(wy - by);
-                    }
-
+                    A[d, w] = 1;
+                    q.Enqueue(Tuple.Create(d, w));
+                    isChange = true;
                 }
+
+                // 左
+                if (0 <= l && A[h, l] == 0)
+                {
+                    A[h, l] = 1;
+                    q.Enqueue(Tuple.Create(h, l));
+                    isChange = true;
+                }
+
+                // 右
+                if (r < W && A[h, r] == 0)
+                {
+                    A[h, r] = 1;
+                    q.Enqueue(Tuple.Create(h, r));
+                    isChange = true;
+                }
+
+                len--;
+                if (len == 0 && isChange) { conut++; len = q.Count; isChange = false; }
             }
-            Console.WriteLine(result);
+
+            Console.WriteLine(conut);
         }
-
     }
 }
