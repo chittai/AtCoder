@@ -7,6 +7,34 @@ using System.Linq;
 namespace Etc
 {
 
+    class PF
+    {
+        //prime factorization(素因数分解)
+        public static void CalcPF()
+        {
+            int N = int.Parse(Console.ReadLine());
+
+            int temp;
+            int j;
+            int[] Res = new int[N + 1];
+
+            for (int i = N; i > 1; i--)
+            {
+                j = 2;
+                temp = i;
+                while (j <= N)
+                {
+                    while (temp % j == 0)
+                    {
+                        Res[j]++;
+                        temp /= j;
+                    }
+                    j++;
+                }
+            }
+        }
+    }
+
     class GCD
     {
         public static long CalcGCD(long a, long b)
