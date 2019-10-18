@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace D2019PC
 {
-    class C
+    class D
     {
         static void Main(string[] args)
         {
