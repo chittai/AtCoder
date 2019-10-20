@@ -18,10 +18,15 @@ namespace ABC143
             {
                 for (int j = i + 1; j < N - 1; j++)
                 {
-                    //indexMax = Array.BinarySearch(L, L[i] + L[j]);
-                    //if (indexMax < 0) indexMax = ~indexMax;
-                    //count += indexMax - (j + 1);
+                    indexMax = Array.BinarySearch(L, L[i] + L[j]);
+                    if (indexMax < 0) indexMax = ~indexMax;
+                    else
+                    {
+                        while (L[indexMax] == L[indexMax - 1]) indexMax--;
+                    }
+                    count += indexMax - (j + 1);
 
+                    /*
                     for (int k = N - 1; j < k; k--)
                     {
                         if (L[k] < L[i] + L[j])
@@ -30,6 +35,7 @@ namespace ABC143
                             break;
                         }
                     }
+                     */
                 }
             }
             Console.WriteLine(count);
