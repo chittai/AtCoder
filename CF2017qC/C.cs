@@ -9,35 +9,43 @@ namespace CF2017qC
         static void Main(string[] args)
         {
             //入力 s
-            string s = Console.ReadLine();
-            //sからxを抜いた文字列を配列として格納
-            List<char> S = new List<char>();
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (s[i] == 'x') S.Add(s[i]);
-            }
+            var s = Console.ReadLine().ToList();
 
-            //s.lengthが1かどうか
-            if (S.Count <= 1)
+            int count = 0;
+            //sが空になるまで
+            while (0 < s.Count)
             {
-                //0を出力
-                Console.WriteLine(0);
-            }
-            else
-            {
-                //2以上の時
-                //0->と←s.length-1で (s.length-1)/2まで要素を比較する→奇数用に切り上げる
-                //同じであれば続けて、違ったら回分じゃないので終了(-1を出力)
-                for (int i = 0; i < S.Count / 2; i++)
+                //先頭と末尾をチェックする
+                //先頭と末尾が同じ場合
+                if (s[0] == s[s.Count - 1])
                 {
-                    if (S[i] != S[S.Count - 1]) { Console.WriteLine(-1); return; }
+                    ////先頭と末尾の文字を削除する
+                    s.RemoveAt(0);
+                    if (0 < s.Count) s.RemoveAt(s.Count - 1);
                 }
-
-                int count = 0; //操作回数を数える
-                //入力された文字列をそのまま使い、
-
-                Console.WriteLine();
+                else if (s[0] != s[s.Count - 1])
+                {
+                    //先頭と末尾が異なっており、両方ともxではない場合は-1を出 
+                    //先頭と末尾が異なっており、片方がxの場合はメイン処理
+                    ////末尾がxの場合はxを先頭へ追加
+                    ////先頭がxの場合はxを末尾へ追加
+                    if (s[0] != 'x' && s[s.Count - 1] != 'x')
+                    {
+                        Console.WriteLine(-1); return;
+                    }
+                    else if (s[0] != 'x')
+                    {
+                        s.Insert(0, 'x');
+                        count++;
+                    }
+                    else if (s[s.Count - 1] != 'x')
+                    {
+                        s.Add('x');
+                        count++;
+                    }
+                }
             }
+            Console.WriteLine(count);
         }
     }
 }
