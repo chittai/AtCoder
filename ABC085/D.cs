@@ -26,27 +26,19 @@ namespace ABC085
 
             //Aの最大値を求める。その最大値以上のBの値の合計(Bsum)を求める
             int Amax = A[0];
-
             int Bcount = B.Count(b => Amax < b);
-            int Bsum = B.Where(b => Amax < b).Sum();
-            /*
-            for (int i = 0; i < N; i++)
+
+            //HからAmax < B[i] となる値を順に引いていく。0以下になったらそこまでの回数が回答
+            //0以下にならなかった場合に限り、その値をAmaxで割る。割り切れなかったら回答に+1をする
+            for (int i = 0; i < Bcount; i++)
             {
-                if (Amax < B[i])
-                {
-                    count++;
-                    Bsum += B[i];
-                }
+                H -= B[i];
+                if (H <= 0) { Console.WriteLine(i + 1); return; }
             }
-             */
 
-            //(H-Bsum) / A で割り切れたら,この値にBsumに使用した値の数を足したらOK
-            //割り切れなかったら＋1をする。
-
-            if ((H - Bsum) % Amax == 0) { Console.WriteLine(Bcount + ((H - Bsum) / Amax)); }
-            else { Console.WriteLine(Bcount + 1 + ((H - Bsum) / Amax)); }
-
-
+            int res = H / Amax;
+            if (H % Amax == 0) Console.WriteLine(res + Bcount);
+            else Console.WriteLine(res + Bcount + 1);
         }
     }
 }
