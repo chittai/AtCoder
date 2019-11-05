@@ -19,27 +19,21 @@ namespace ABC042
 
             //Nの桁数回繰り返す
             int len = N.ToString().Length;
-            int res = 0;
-            int n = N;
-            for (int i = 0; i < len; i++)
+            //int res = 0;
+            int n = 0;
+
+            for (int i = N; i < 10 * N; i++)
             {
-                int temp = n % 10;
-                bool isDone = false;
-                //Console.WriteLine(temp);
-                for (int j = 0; j < D2.Length; j++)
+                bool isOK = true;
+                n = i;
+                string s = n.ToString();
+                for (int j = 0; j < s.ToString().Length; j++)
                 {
-                    if (temp <= D2[j]) { res += D2[j] * (int)Math.Pow(10, i); isDone = true; break; }
+                    if (D.Contains(int.Parse(s[j].ToString()))) { isOK = false; break; }
                 }
-
-                if (!isDone) { res += D2[0] * (int)Math.Pow(10, i); }
-                //Dに含まれていないで、各桁の値以上であり、とりうる最小の値を選択する(D2がその配列)
-                n /= 10;
+                if (isOK) break;
             }
-
-            if (res < N && D2[0] != 0) { res += D2[0] * (int)Math.Pow(10, len); }
-            else if (res < N && D2[0] == 0) { res = Math.Min(res * 10, res + D2[1] * (int)Math.Pow(10, len)); }
-
-            Console.WriteLine(res);
+            Console.WriteLine(n);
         }
     }
 }
