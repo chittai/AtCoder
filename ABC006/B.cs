@@ -2,7 +2,7 @@
 
 namespace ABC006
 {
-    class C
+    class B
     {
         static void Main(string[] args)
         {
