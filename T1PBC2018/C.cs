@@ -14,52 +14,54 @@ namespace T1PBC2018
             {
                 A[i] = int.Parse(Console.ReadLine());
             }
-
             //Aを降順でソートする
             A = A.OrderByDescending(x => x).ToArray();
 
-            //A[0], A[1] , A[A.Length -1 ]
-            //A[0] - A[A.Length -1], A[1] - A[A.Length -1]
-            //L = A[0], R = A[1]　とする
-            //2回目はMax(| L -A[A.Length -2]|,|R - A[A.Length -2]|) で、大きかったほう(L,R)を更新する
-            //次はMax(| L -A[2]|,|R - A[2]]|) で、大きかったほう(L,R)を更新する
-
-            int count = A[0] - A[A.Length - 1] + A[1] - A[A.Length - 1];
-            int L = A[0];
-            int R = A[1];
-
-            int indexS = 2;
-            int indexL = 2;
-
-            for (int i = 0; i < N - 3; i++)
+            if (N % 2 == 0)
             {
-                //小さい値
-                if (i % 2 == 0)
+                long res = 0;
+                for (int i = 0; i < N / 2 - 1; i++)
                 {
-                    int temp = A[A.Length - indexS];
-
-                    int tempL = Math.Abs(L - temp);
-                    int tempR = Math.Abs(R - temp);
-
-                    count += Math.Max(tempL, tempR);
-                    if (tempL < tempR) { R = A[A.Length - indexS]; }
-                    else { L = A[A.Length - indexS]; }
-                    indexS++;
+                    res += A[i] * 2;
                 }
-                else
+                res += A[N / 2 - 1] * 1;
+                res += A[N / 2] * -1;
+                for (int i = N / 2 + 1; i < N; i++)
                 {
-                    int temp = A[indexL];
-
-                    int tempL = Math.Abs(L - temp);
-                    int tempR = Math.Abs(R - temp);
-
-                    count += Math.Max(tempL, tempR);
-                    if (tempL < tempR) { R = A[A.Length - indexS]; }
-                    else { L = A[indexL]; }
-                    indexL++;
+                    res += A[i] * -2;
                 }
+                Console.WriteLine(res);
             }
-            Console.WriteLine(count);
+            else
+            {
+                long res1 = 0;
+                long res2 = 0;
+                for (int i = 0; i < N / 2 - 1; i++)
+                {
+                    res1 += A[i] * 2;
+                }
+                res1 += A[N / 2 - 1] * 1;
+                res1 += A[N / 2] * 1;
+                for (int i = N / 2 + 1; i < N; i++)
+                {
+                    res1 += A[i] * -2;
+                }
+
+                for (int i = 0; i < N / 2; i++)
+                {
+                    res2 += A[i] * 2;
+                }
+                res2 += A[N / 2] * -1;
+                res2 += A[N / 2 + 1] * -1;
+                for (int i = N / 2 + 2; i < N; i++)
+                {
+                    res2 += A[i] * -2;
+                }
+
+                Console.WriteLine(Math.Max(res1, res2));
+
+            }
+
         }
     }
 }
