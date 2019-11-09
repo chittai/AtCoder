@@ -10,19 +10,14 @@ namespace ZTP002
         static void Main(string[] args)
         {
 
-            //StreamReader sr = new StreamReader(@"./test");
-            //int N = int.Parse(sr.ReadLine());
             int N = int.Parse(Console.ReadLine());
             int[] D = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            //int[] D = sr.ReadLine().Split().Select(int.Parse).ToArray();
             long MOD = 998244353;
-
-            //頂点1からの距離で何個あるのか分類する
             long[] DCount = new long[N];
 
             //エラー処理
-            if (N <= D.Max()) { Console.WriteLine(0); return; }
             if (D[0] != 0) { Console.WriteLine(0); return; }
+            if (N <= D.Max()) { Console.WriteLine(0); return; }
             var Dsorted = D.OrderBy(x => x).ToArray();
             for (int i = 0; i < N - 1; i++)
             {
@@ -34,15 +29,20 @@ namespace ZTP002
             {
                 DCount[D[i]]++;
             }
+            //Console.WriteLine(string.Join(",", DCount));
 
-            //先頭から木の組み合わせを作りつつ、Pow(parent, children)をかけ合わせる
             long parent = 1;
             for (int i = 1; i < N; i++)
             {
-                if (DCount[i] != 0) parent = (parent * (long)Math.Pow(DCount[i - 1], DCount[i]) % MOD) % MOD;
+                if (0 < DCount[i])
+                {
+                    for (int j = 0; j < DCount[i]; j++)
+                    {
+                        parent = (parent * DCount[i - 1]) % MOD;
+                    }
+                }
             }
 
-            //Console.WriteLine(string.Join(",", DCount));
             Console.WriteLine(parent);
 
         }
