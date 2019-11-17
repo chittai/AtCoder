@@ -31,9 +31,7 @@ namespace ABC145
                     if (i != j) total += Math.Sqrt(Math.Pow(x[j] - x[i], 2) + Math.Pow(y[j] - y[i], 2));
                 }
             }
-
             Console.WriteLine(total / N);
-
         }
     }
 }
