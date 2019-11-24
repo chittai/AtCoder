@@ -50,7 +50,7 @@ namespace DDCC2020
             //行にいちごがない場合
             for (int h = 0; h < H; h++)
             {
-                if (countArray[h] == 0)
+                if (h == 0 && countArray[h] == 0)
                 {
                     for (int h2 = h; h2 < H; h2++)
                     {
@@ -58,12 +58,18 @@ namespace DDCC2020
                         {
                             for (int w = 0; w < W; w++)
                             {
-                                //if (h - 1 < 0) res[w, h] = res[w, h2];
                                 res[w, h] = res[w, h2];
-                                //else res[w, h] = res[w, h];
                             }
                             break;
                         }
+                    }
+                }
+
+                if (0 < h && countArray[h] == 0)
+                {
+                    for (int w = 0; w < W; w++)
+                    {
+                        res[w, h] = res[w, h - 1];
                     }
                 }
             }
