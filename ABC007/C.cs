@@ -20,56 +20,44 @@ namespace ABC007
             int gy = int.Parse(input[0]) - 1;
             int gx = int.Parse(input[1]) - 1;
 
-            string[] map = new string[R];
+            char[,] map = new char[C, R];
             for (int i = 0; i < R; i++)
             {
-                map[i] = Console.ReadLine();
+                string s = Console.ReadLine();
+                for (int j = 0; j < C; j++)
+                {
+                    map[j, i] = s[j];
+                }
             }
 
-            Queue<int> q = new Queue<int>();
+            Queue<Tuple<int, int, int>> tq = new Queue<Tuple<int, int, int>>();
 
-            q.Enqueue(sy);
-            q.Enqueue(sx);
-
+            tq.Enqueue(Tuple.Create(sx, sy, 0));
             int step = 0;
-            q.Enqueue(step);
-
-            while (0 < q.Count)
+            map[sx, sy] = '#';
+            while (0 < tq.Count)
             {
-                int y = q.Dequeue();
-                int x = q.Dequeue();
-                step = q.Dequeue();
+                var q = tq.Dequeue();
+                int x = q.Item1;
+                int y = q.Item2;
+                step = q.Item3;
+
 
                 //Console.WriteLine("y : " + y);
                 //Console.WriteLine("x : " + x);
                 //Console.WriteLine("step : " + step);
 
-                if (y == gy && x == gx)
+                if (x == gx && y == gy)
                 {
                     Console.WriteLine(step);
-                    break;
+                    return;
                 }
 
-                if (0 < y && 0 < x)
-                {
-                    if (map[y + 1][x] == '.') { q.Enqueue(y + 1); q.Enqueue(x); q.Enqueue(step + 1); }
-                    if (map[y - 1][x] == '.') { q.Enqueue(y - 1); q.Enqueue(x); q.Enqueue(step + 1); }
-                    if (map[y][x + 1] == '.') { q.Enqueue(y); q.Enqueue(x + 1); q.Enqueue(step + 1); }
-                    if (map[y][x - 1] == '.') { q.Enqueue(y); q.Enqueue(x - 1); q.Enqueue(step + 1); }
-
-                    map[y] = CharSwap(map[y], x);
-                    //Console.WriteLine(map[y]);
-                }
+                if (y + 1 < R && map[x, y + 1] == '.') { map[x, y + 1] = '#'; tq.Enqueue(Tuple.Create(x, y + 1, step + 1)); }
+                if (0 <= y - 1 && map[x, y - 1] == '.') { map[x, y - 1] = '#'; tq.Enqueue(Tuple.Create(x, y - 1, step + 1)); }
+                if (x + 1 < C && map[x + 1, y] == '.') { map[x + 1, y] = '#'; tq.Enqueue(Tuple.Create(x + 1, y, step + 1)); }
+                if (0 < x - 1 && map[x - 1, y] == '.') { map[x - 1, y] = '#'; tq.Enqueue(Tuple.Create(x - 1, y, step + 1)); }
             }
-        }
-
-        static string CharSwap(string s, int x)
-        {
-            char[] c = s.ToCharArray();
-            c[x] = '#';
-
-            string cs = new string(c);
-            return cs;
         }
     }
 }
