@@ -31,10 +31,13 @@ namespace ABC007
             }
 
             Queue<Tuple<int, int, int>> tq = new Queue<Tuple<int, int, int>>();
-
             tq.Enqueue(Tuple.Create(sx, sy, 0));
             int step = 0;
             map[sx, sy] = '#';
+
+            int[] vx = { 0, 1, 0, -1 };
+            int[] vy = { 1, 0, -1, 0 };
+
             while (0 < tq.Count)
             {
                 var q = tq.Dequeue();
@@ -42,21 +45,23 @@ namespace ABC007
                 int y = q.Item2;
                 step = q.Item3;
 
-
-                //Console.WriteLine("y : " + y);
-                //Console.WriteLine("x : " + x);
-                //Console.WriteLine("step : " + step);
-
                 if (x == gx && y == gy)
                 {
                     Console.WriteLine(step);
                     return;
                 }
 
-                if (y + 1 < R && map[x, y + 1] == '.') { map[x, y + 1] = '#'; tq.Enqueue(Tuple.Create(x, y + 1, step + 1)); }
-                if (0 <= y - 1 && map[x, y - 1] == '.') { map[x, y - 1] = '#'; tq.Enqueue(Tuple.Create(x, y - 1, step + 1)); }
-                if (x + 1 < C && map[x + 1, y] == '.') { map[x + 1, y] = '#'; tq.Enqueue(Tuple.Create(x + 1, y, step + 1)); }
-                if (0 < x - 1 && map[x - 1, y] == '.') { map[x - 1, y] = '#'; tq.Enqueue(Tuple.Create(x - 1, y, step + 1)); }
+                for (int i = 0; i < 4; i++)
+                {
+                    int nx = x + vx[i];
+                    int ny = y + vy[i];
+
+                    if ((0 <= nx && nx < C) && (0 <= ny && ny < R) && map[nx, ny] == '.')
+                    {
+                        map[nx, ny] = '#';
+                        tq.Enqueue(Tuple.Create(nx, ny, step + 1));
+                    }
+                }
             }
         }
     }
