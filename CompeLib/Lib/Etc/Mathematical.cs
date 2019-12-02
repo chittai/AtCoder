@@ -42,7 +42,15 @@ namespace Etc
             if (b == 0) { return a; }
             return CalcGCD(b, a % b);
         }
+
+        public static long CalcLCM(long a, long b)
+        {
+            return a * b / CalcGCD(a, b);
+        }
+
     }
+
+
     class Combination
     {
         // Combination
