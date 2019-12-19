@@ -9,39 +9,33 @@ namespace EDPC
         {
             int N = int.Parse(Console.ReadLine());
 
-            string[] input = new string[N];
-            int[,] score = new int[N, 3];
+            // DP table
+            int[,] DP = new int[N, 3];
+            int[] a = new int[N];
+            int[] b = new int[N];
+            int[] c = new int[N];
 
-            for (int i = 0; i < N; i++)
+            // init DP table
+            // init value
+            int[] input = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            for (int i = 0; i < 3; i++)
             {
-                input = Console.ReadLine().Split(' ');
-                for (int j = 0; j < 3; j++)
-                {
-                    score[i, j] = int.Parse(input[j]);
-                }
+                DP[0, i] = input[i];
             }
 
-
-            int[,] dp = new int[N + 10, 3];
-
-            // Main processing
-            for (int i = 0; i < N; i++)
+            // Main
+            for (int i = 1; i < N; i++)
             {
+                input = Console.ReadLine().Split().Select(int.Parse).ToArray();
                 for (int j = 0; j < 3; j++)
                 {
                     for (int k = 0; k < 3; k++)
                     {
-                        if (j != k) dp[i + 1, k] = Math.Max(dp[i + 1, k], dp[i, j] + score[i, k]);
+                        if (j != k) DP[i, j] = Math.Max(DP[i, j], DP[i - 1, k] + input[j]);
                     }
                 }
             }
-
-            int max = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                if (max < dp[N, i]) { max = dp[N, i]; }
-            }
-            Console.WriteLine(max);
+            Console.WriteLine(Math.Max(Math.Max(DP[N - 1, 0], DP[N - 1, 1]), DP[N - 1, 2]));
         }
     }
 }
