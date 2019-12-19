@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace EDPC
 {
@@ -6,36 +7,24 @@ namespace EDPC
     {
         static void Main(string[] args)
         {
-            int N = int.Parse(Console.ReadLine());
-            string[] input = Console.ReadLine().Split(' ');
+            // input
+            long N = long.Parse(Console.ReadLine());
+            long[] h = Console.ReadLine().Split().Select(long.Parse).ToArray();
 
-            // initialize
-            long[] h = new long[N];
-            for (int i = 0; i < N; i++)
-            {
-                h[i] = int.Parse(input[i]);
-            }
+            //DP table
+            long[] DP = new long[N].Select(x => x = int.MaxValue).ToArray();
 
-            // 初期条件
-            long H = 100010;
-            long[] dp = new long[N];
-            for (int i = 0; i < N; i++)
+            // Main
+            DP[0] = 0;
+            DP[1] = Math.Abs(h[1] - h[0]);
+            for (long i = 2; i < N; i++)
             {
-                dp[i] = H;
+                for (long j = 1; j <= 2; j++)
+                {
+                    DP[i] = Math.Min(DP[i], DP[i - j] + Math.Abs(h[i] - h[i - j]));
+                }
             }
-            dp[0] = 0;
-            dp[1] = Math.Abs(h[1] - h[0]);
-
-            // 貰うDP
-            for (int i = 2; i < N; i++)
-            {
-                dp[i] = Math.Min(dp[i - 1] + Math.Abs(h[i] - h[i - 1]), dp[i - 2] + Math.Abs(h[i] - h[i - 2]));
-            }
-            Console.WriteLine(dp[N - 1]);
+            Console.WriteLine(DP[N - 1]);
         }
-
-        //static void chmax(ref long a, long b) { if (a < b) { a = b; } }
-        //static void chmin(ref long a, long b) { if (a > b) { a = b; } }
-
     }
 }
