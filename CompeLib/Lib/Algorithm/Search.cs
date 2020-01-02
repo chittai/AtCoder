@@ -46,6 +46,53 @@ namespace Algorithm
             }
         }
 
+        // 訪れたことがあるかどうかの処理をする
+        // AtCoder Beginner Contest 075 C問題
+
+        static void ExecVisitedDfs()
+        {
+
+            int N = 0;
+            int M = 0;
+
+            int[] a = new int[10];
+            int[] b = new int[10];
+
+            int res = 0;
+            for (int i = 0; i < M; i++)
+            {
+                connect[a[i], b[i]] = false;
+                connect[b[i], a[i]] = false;
+                for (int j = 0; j < N; j++) visited[j] = false;
+
+                VisitedDfs(0);
+
+                bool bridge = false;
+                for (int j = 0; j < N; j++)
+                {
+                    if (visited[j] == false) bridge = true;
+                }
+                if (bridge) res++;
+
+                connect[a[i], b[i]] = true;
+                connect[b[i], a[i]] = true;
+            }
+        }
+
+        static bool[] visited;
+        static bool[,] connect;
+        static void VisitedDfs(int n)
+        {
+            visited[n] = true;
+            for (int i = 0; i < N; i++)
+            {
+                if (connect[n, i] == false) continue;
+                if (visited[i] == true) continue;
+                VisitedDfs(i);
+            }
+        }
+
+
     }
 
     class BFS
