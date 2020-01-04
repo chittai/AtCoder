@@ -5,6 +5,47 @@ using System.Linq;
 namespace Algorithm
 {
 
+    class BinarySearch
+    {
+        public static int LowerBound<T>(T[] a, T v)
+        {
+            return LowerBound(a, v, Comparer<T>.Default);
+        }
+
+        public static int LowerBound<T>(T[] a, T v, Comparer<T> cmp)
+        {
+            var l = 0;
+            var r = a.Length - 1;
+            while (l <= r)
+            {
+                var mid = l + (r - l) / 2;
+                var res = cmp.Compare(a[mid], v);
+                if (res == -1) l = mid + 1;
+                else r = mid - 1;
+            }
+            return l;
+        }
+
+        public static int UpperBound<T>(T[] a, T v)
+        {
+            return UpperBound(a, v, Comparer<T>.Default);
+        }
+
+        public static int UpperBound<T>(T[] a, T v, Comparer<T> cmp)
+        {
+            var l = 0;
+            var r = a.Length - 1;
+            while (l <= r)
+            {
+                var mid = l + (r - l) / 2;
+                var res = cmp.Compare(a[mid], v);
+                if (res <= 0) l = mid + 1;
+                else r = mid - 1;
+            }
+            return l;
+        }
+    }
+
     class DFS
     {
         static int N = 10;
