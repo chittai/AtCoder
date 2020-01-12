@@ -175,6 +175,7 @@ namespace Algorithm
                 if (x == gx && y == gy)
                 {
                     dist = step;
+                    return;
                 }
 
                 for (int i = 0; i < 4; i++)
