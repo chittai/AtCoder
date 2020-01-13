@@ -52,6 +52,46 @@ namespace Algorithm
     /// </summary>
     class DFS
     {
+        /// <summary>
+        /// Grid用のDFS
+        /// <param name="sx">始点のx座標</param>
+        /// <param name="sy">始点のy座標</param>
+        /// <param name="map"> "." , "#" で構成されたマップ情報。始点にはs, 終点にはgが記載されている想定</param>
+        /// </summary>
+        /// <returns>(sx, sy) から一番遠いマスへのホップ数</returns>
+        static int X;
+        static int Y;
+        static bool GridDFS(int sx, int sy, char[,] map)
+        {
+            Stack<Tuple<int, int>> stack = new Stack<Tuple<int, int>>();
+            Tuple<int, int> ts = Tuple.Create(sx, sy);
+            stack.Push(ts);
+            bool isOK = false;
+
+            int[] vx = { 0, 1, 0, -1 };
+            int[] vy = { 1, 0, -1, 0 };
+            while (0 < stack.Count)
+            {
+                var t = stack.Pop();
+                int x = t.Item1;
+                int y = t.Item2;
+                if (map[x, y] == 'g') { isOK = true; break; }
+                map[x, y] = '#';
+
+                for (int i = 0; i < 4; i++)
+                {
+                    int nx = x + vx[i];
+                    int ny = y + vy[i];
+
+                    if ((0 <= nx && nx < X) && (0 <= ny && ny < Y) && map[nx, ny] == '.')
+                    {
+                        stack.Push(Tuple.Create(x + vx[i], y + vy[i]));
+                    }
+                }
+            }
+            return isOK;
+        }
+
         static int N = 10;
         static List<int>[] list = new List<int>[N];
 
@@ -146,12 +186,15 @@ namespace Algorithm
     class BFS
     {
         /// <summary>
-        /// (sx, sy) から各マスへのホップ数をdistに格納する
-        /// 始点を
+        /// Grid用のBFS
+        /// <param name="sx">始点のx座標</param>
+        /// <param name="sy">始点のy座標</param>
+        /// <param name="map"> "." , "#" で構成されたマップ情報</param>
         /// </summary>
+        /// <returns>(sx, sy) から一番遠いマスへのホップ数</returns>
         static int X;
         static int Y;
-        static int CountStepByBFS(int sx, int sy, char[,] map)
+        static int GridBFS(int sx, int sy, char[,] map)
         {
             int[,] dist = new int[X, Y];
             for (int y = 0; y < Y; y++)
