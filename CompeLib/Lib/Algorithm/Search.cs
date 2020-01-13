@@ -4,17 +4,6 @@ using System.Linq;
 
 namespace Algorithm
 {
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            // CountStepByBFS
-
-
-        }
-    }
-
     class BinarySearch
     {
         public static int LowerBound<T>(T[] a, T v)
@@ -56,6 +45,11 @@ namespace Algorithm
         }
     }
 
+
+
+    /// <summary>
+    /// DFS
+    /// </summary>
     class DFS
     {
         static int N = 10;
@@ -146,25 +140,34 @@ namespace Algorithm
 
     }
 
+    /// <summary>
+    /// BFS
+    /// </summary>
     class BFS
     {
         /// <summary>
-        /// (sx, sy) -> (gx, gy)の最短経路を検索する。dist にホップ数を格納する
+        /// (sx, sy) から各マスへのホップ数をdistに格納する
+        /// 始点を
         /// </summary>
-        static int[,] map;
         static int X;
         static int Y;
-        static int dist;
-        static void CountStepByBFS(int sx, int sy, int gx, int gy)
+        static int CountStepByBFS(int sx, int sy, char[,] map)
         {
+            int[,] dist = new int[X, Y];
+            for (int y = 0; y < Y; y++)
+            {
+                for (int x = 0; x < X; x++)
+                {
+                    dist[x, y] = -1;
+                }
+            }
             Queue<Tuple<int, int, int>> tq = new Queue<Tuple<int, int, int>>();
-            tq.Enqueue(Tuple.Create(sx, sy, 0));
             int step = 0;
-            map[sx, sy] = '#';
+            tq.Enqueue(Tuple.Create(sx, sy, step));
+            dist[sx, sy] = 0;
 
             int[] vx = { 0, 1, 0, -1 };
             int[] vy = { 1, 0, -1, 0 };
-
             while (0 < tq.Count)
             {
                 var q = tq.Dequeue();
@@ -172,75 +175,19 @@ namespace Algorithm
                 int y = q.Item2;
                 step = q.Item3;
 
-                if (x == gx && y == gy)
-                {
-                    dist = step;
-                    return;
-                }
-
                 for (int i = 0; i < 4; i++)
                 {
                     int nx = x + vx[i];
                     int ny = y + vy[i];
 
-                    if ((0 <= nx && nx < X) && (0 <= ny && ny < Y) && map[nx, ny] == '.')
+                    if ((0 <= nx && nx < X) && (0 <= ny && ny < Y) && map[nx, ny] == '.' && dist[nx, ny] == -1)
                     {
-                        map[nx, ny] = '#';
+                        dist[nx, ny] = dist[x, y] + 1;
                         tq.Enqueue(Tuple.Create(nx, ny, step + 1));
                     }
                 }
             }
+            return step; // 始点から一番遠いホップ数を返す
         }
-
-
-        /* 
-        public static void BFS()
-        {
-            int N = 10;
-            List<int>[] list = new List<int>[N];
-
-            // init
-            for (int i = 0; i < N; i++)
-            {
-                list[i] = new List<int>();
-            }
-
-            int[] input;
-            int x = 0;
-            int y = 0;
-            for (int i = 0; i < N; i++)
-            {
-                // ex: (1,2) など、辺の情報をinputとして受ける想定。
-                input = Console.ReadLine().Split().Select(int.Parse).ToArray();
-
-                // 木構造の辺情報がinputにあるときは、相互に追加する
-                x = input[0] - 1;
-                y = input[1] - 1;
-                list[x].Add(y);
-                list[y].Add(x);
-            }
-
-            // すでに処理されたノードかどうか判定するための配列
-            bool[] Used = new bool[N];
-
-            Queue<int> q = new Queue<int>();
-            for (int i = 0; i < N; i++)
-            {
-                if (Used[i]) continue;
-                Used[i] = true;
-                q.Enqueue(i);
-
-                while (q.Any())
-                {
-                    foreach (var item in list[q.Dequeue()])
-                    {
-                        if (Used[item]) continue;
-                        Used[item] = true;
-                        q.Enqueue(item);
-                    }
-                }
-            }
-        }
-        */
     }
 }
