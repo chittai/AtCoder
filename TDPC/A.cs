@@ -1,30 +1,29 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace TDPC
 {
     class A
     {
-        static List<int> list;
         static int[] p;
         static void Main(string[] args)
         {
             int N = int.Parse(Console.ReadLine());
             p = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            list = new List<int>();
-            rec(N, 0);
-            Console.WriteLine(list.Distinct().Count());
 
+            int sum = p.Sum();
+
+            bool[] dp = new bool[sum + 110];
+            dp[0] = true;
+
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = sum; 0 <= j; j--)
+                {
+                    if (dp[j] | dp[j + p[i]]) { dp[j + p[i]] = true; }
+                }
+            }
+            Console.WriteLine(dp.Count(x => x == true));
         }
-
-        static private void rec(int N, int cost)
-        {
-
-            if (N == 0) { list.Add(cost); return; }
-            rec(N - 1, cost + p[N - 1]);
-            rec(N - 1, cost);
-        }
-
     }
 }
