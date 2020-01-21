@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ABC030
 {
-    class A
+    class B
     {
         static void Main(string[] args)
         {
