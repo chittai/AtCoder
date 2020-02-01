@@ -7,20 +7,31 @@ namespace AGC037
         static void Main(string[] args)
         {
             string S = Console.ReadLine();
-            int res = 0;
             string temp = S[0].ToString();
-            for (int i = 1; i < S.Length - 1; i++)
+            int res = 1;
+            for (int i = 1; i < S.Length; i++)
             {
-                int len = temp.Length;
-                while (0 < len)
+                if (temp.Length == 2)
                 {
-
+                    res++;
+                    temp = S[i].ToString();
                 }
-
+                else
+                {
+                    if (temp != S[i].ToString())
+                    {
+                        res++;
+                        temp = S[i].ToString();
+                    }
+                    else
+                    {
+                        if (i < S.Length - 1) { res++; temp = S.Substring(i, 2); }
+                        else break;
+                        i++;
+                    }
+                }
             }
-
-
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(res);
         }
     }
 }
