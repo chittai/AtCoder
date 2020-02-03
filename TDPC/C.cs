@@ -28,19 +28,19 @@ namespace TDPC
             double[,] DP = new double[X + 10, K + 10];
             for (int i = 0; i < X; i++)
             {
-                DP[i, 0] = 1d;
+                DP[i, 0] = 1.0;
             }
 
-            for (int i = 0; i < X; i++)
+            for (int k = 0; k < K; k++)
             {
-                for (int j = 1; j < K; j++)
+                for (int x = 0; x < X; x++)
                 {
-                    double sum = 0.0;
-                    for (int k = 0; k < X; k++)
+                    double b = (x >> k) << k;
+                    for (int j = 0; j < b + (1 << k); j++)
                     {
-                        sum += DP[k, j - 1];
+                        if ((x >> (k - 1) & 1) == (j >> (k - 1) & 1)) continue;
+                        DP[x, k] += DP[x, k - 1] * DP[j, k - 1] * P[x, j];
                     }
-                    DP[i, j] = DP[i, j - 1] * sum * P;
                 }
             }
 
@@ -48,8 +48,6 @@ namespace TDPC
             {
                 Console.WriteLine(DP[i, K]);
             }
-
-
         }
     }
 }
