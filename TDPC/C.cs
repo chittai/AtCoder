@@ -31,15 +31,15 @@ namespace TDPC
                 DP[i, 0] = 1.0;
             }
 
-            for (int k = 0; k < K; k++)
+            for (int k = 0; k <= K; k++)
             {
                 for (int x = 0; x < X; x++)
                 {
-                    double b = (x >> k) << k;
-                    for (int j = 0; j < b + (1 << k); j++)
+                    int b = (x >> k) << k;
+                    for (int j = b; j < b + (1 << k); j++)
                     {
                         if ((x >> (k - 1) & 1) == (j >> (k - 1) & 1)) continue;
-                        DP[x, k] += DP[x, k - 1] * DP[j, k - 1] * P[x, j];
+                        DP[x, k] += DP[x, k - 1] * DP[j, k - 1] * P[j, x];
                     }
                 }
             }
