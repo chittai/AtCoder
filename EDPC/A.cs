@@ -7,19 +7,15 @@ namespace EDPC
     {
         static void Main(string[] args)
         {
-            // input
-            long N = long.Parse(Console.ReadLine());
-            long[] h = Console.ReadLine().Split().Select(long.Parse).ToArray();
+            int N = int.Parse(Console.ReadLine());
+            int[] h = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
-            //DP table
-            long[] DP = new long[N].Select(x => x = int.MaxValue).ToArray();
-
-            // Main
+            int[] DP = new int[N].Select(x => int.MaxValue).ToArray();
             DP[0] = 0;
             DP[1] = Math.Abs(h[1] - h[0]);
-            for (long i = 2; i < N; i++)
+            for (int i = 2; i < N; i++)
             {
-                for (long j = 1; j <= 2; j++)
+                for (int j = 1; j <= 2; j++)
                 {
                     DP[i] = Math.Min(DP[i], DP[i - j] + Math.Abs(h[i] - h[i - j]));
                 }
