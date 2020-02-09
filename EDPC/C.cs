@@ -8,22 +8,16 @@ namespace EDPC
         static void Main(string[] args)
         {
             int N = int.Parse(Console.ReadLine());
-
-            // DP table
-            int[,] DP = new int[N, 3];
             int[] a = new int[N];
             int[] b = new int[N];
             int[] c = new int[N];
+            int[,] DP = new int[N, 3];
 
-            // init DP table
-            // init value
             int[] input = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            for (int i = 0; i < 3; i++)
-            {
-                DP[0, i] = input[i];
-            }
+            DP[0, 0] = input[0];
+            DP[0, 1] = input[1];
+            DP[0, 2] = input[2];
 
-            // Main
             for (int i = 1; i < N; i++)
             {
                 input = Console.ReadLine().Split().Select(int.Parse).ToArray();
@@ -31,11 +25,11 @@ namespace EDPC
                 {
                     for (int k = 0; k < 3; k++)
                     {
-                        if (j != k) DP[i, j] = Math.Max(DP[i, j], DP[i - 1, k] + input[j]);
+                        if (j != k) DP[i, j] = Math.Max(DP[i, j], input[j] + DP[i - 1, k]);
                     }
                 }
             }
-            Console.WriteLine(Math.Max(Math.Max(DP[N - 1, 0], DP[N - 1, 1]), DP[N - 1, 2]));
+            Console.WriteLine(Math.Max(DP[N - 1, 2], Math.Max(DP[N - 1, 0], DP[N - 1, 1])));
         }
     }
 }
