@@ -13,20 +13,20 @@ namespace ARC022
 
             long right = 0;
             long res = 0;
-            List<long> list = new List<long>();
+            int[] arr = new int[100001];
 
             for (int left = 0; left < N; left++)
             {
-                while (right < N && !list.Contains(A[right]))
+                while (right < N && arr[A[right]] < 1)
                 {
-                    list.Add(A[right]);
+                    arr[A[right]]++;
                     right++;
                 }
 
                 res = Math.Max(res, right - left);
 
                 if (right == left) right++;
-                else list.RemoveAt(0);
+                else arr[A[left]]--;
             }
             Console.WriteLine(res);
         }
