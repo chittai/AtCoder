@@ -21,7 +21,7 @@ namespace Etc
             /* 以下、処理のまとめ */
 
             // 数列を入力して、文字列から整数へと変換する
-            NA = Console.ReadLine().Select(int.Parse).ToArray();
+            NA = Console.ReadLine().Split().Select(int.Parse).ToArray();
 
             // 違う用途の数列を入力して各対応する変数に格納する
             NA = Console.ReadLine().Split().Select(int.Parse).ToArray();
