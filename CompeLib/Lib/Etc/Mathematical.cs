@@ -7,6 +7,49 @@ using System.Linq;
 namespace Etc
 {
 
+    class MOD
+    {
+        public static long modPow(long a, long n, long mod)
+        {
+            long res = 1;
+            while (n > 0)
+            {
+                if ((n & 1) > 0) res = res * a % mod;
+                a = a * a % mod;
+                n >>= 1;
+            }
+            return res % mod;
+        }
+        public static long modInv(long a, long mod)
+        {
+            return modPow(a, mod - 2, mod) % mod;
+        }
+
+        public static long modMul(long a, long b, long mod)
+        {
+            return ((a % mod) * (b % mod)) % mod;
+        }
+
+        public static long modDiv(long a, long b, long mod)
+        {
+            return modMul(a, modInv(b, mod), mod);
+        }
+
+        private static long modCombination(long n, long k, long mod)
+        {
+            long answer = 1;
+            for (long i = n; i > n - k; i--)
+            {
+                answer = modMul(answer, i, mod);
+            }
+            for (long i = 1; i <= k; i++)
+            {
+                answer = modDiv(answer, i, mod);
+            }
+            return answer;
+        }
+    }
+
     class PF
     {
         //prime factorization(素因数分解)
