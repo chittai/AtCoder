@@ -10,7 +10,8 @@ namespace ABC126_1
 
         static List<long>[] Nodes;
         static long[] Res;
-        static long[,] Dist;
+        //static long[,] Dist;
+        static List<long>[] Dist;
         static void Main(string[] args)
         {
 
@@ -19,8 +20,9 @@ namespace ABC126_1
             var n = long.Parse(Console.ReadLine());
             //var n = long.Parse(r.ReadLine());
             Nodes = new List<long>[n].Select(x => x = new List<long>()).ToArray();
-            Dist = new long[n + 10, n + 10];
+            Dist = new List<long>[n].Select(x => x = new List<long>()).ToArray();
             Res = new long[n];
+
             for (int i = 0; i < n - 1; i++)
             {
                 var a = Console.ReadLine().Split().Select(long.Parse).ToArray();
@@ -28,13 +30,10 @@ namespace ABC126_1
                 // ノード間の接続情報
                 Nodes[a[0] - 1].Add(a[1]);
                 Nodes[a[1] - 1].Add(a[0]);
-                Console.WriteLine(i);
                 // 2点間の距離
-                Dist[a[0] - 1, a[1] - 1] = a[2] % 2;
-                Dist[a[1] - 1, a[0] - 1] = a[2] % 2;
-
+                Dist[a[0] - 1].Add(a[2] % 2);
+                Dist[a[1] - 1].Add(a[2] % 2);
             }
-
 
             /*
             for (int i = 0; i < n; i++)
@@ -48,7 +47,6 @@ namespace ABC126_1
             */
 
             dfs(0, 1, 0);
-
             for (int i = 0; i < n; i++)
             {
                 Console.WriteLine(Res[i]);
@@ -60,11 +58,20 @@ namespace ABC126_1
         {
             if (distSum % 2 == 0) Res[nowNode - 1] = 0;
             if (distSum % 2 == 1) Res[nowNode - 1] = 1;
+
+            for (int i = 0; i < Nodes[nowNode - 1].Count; i++)
+            {
+                var nextNode = Nodes[nowNode - 1][i];
+                if (preNode != nextNode) dfs(nowNode, nextNode, distSum + Dist[nowNode - 1][i]);
+            }
+
+            /*
             foreach (var nextNode in Nodes[nowNode - 1])
             {
                 // 前のノードの接続情報は無視する
                 if (preNode != nextNode) dfs(nowNode, nextNode, distSum + Dist[nowNode - 1, nextNode - 1]);
             }
+            */
         }
     }
 }
