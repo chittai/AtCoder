@@ -1,0 +1,17 @@
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace ABC159
+{
+    class A
+    {
+        static void Main(string[] args)
+        {
+            var nm = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            var n = nm[0];
+            var m = nm[1];
+            Console.WriteLine((n * (n - 1) / 2) + (m * (m - 1) / 2));
+        }
+    }
+}

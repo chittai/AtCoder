@@ -1,0 +1,30 @@
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace ABC159
+{
+    class C
+    {
+        static void Main(string[] args)
+        {
+            double L = double.Parse(Console.ReadLine());
+            //double res = 0;
+            /*
+            for (double i = 0; i < 1000; i++)
+            {
+                for (double j = 1; j < 1000; j++)
+                {
+                    double k = L - i - j;
+
+                    if (i + j < L)
+                    {
+                        res = Math.Max(i * j * (L - i - j), res);
+                    }
+                }
+            }
+            */
+            Console.WriteLine(Math.Pow(L / 3.0, 3));
+        }
+    }
+}
