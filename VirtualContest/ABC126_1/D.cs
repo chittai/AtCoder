@@ -5,73 +5,47 @@ using System.Collections.Generic;
 
 namespace ABC126_1
 {
+
     class D
     {
-
-        static List<long>[] Nodes;
+        public struct Edge
+        {
+            public int to;
+            public int weight;
+            public Edge(int t, int w) { to = t; weight = w; }
+        }
+        static List<Edge>[] Nodes;
+        static bool[] seen;
         static long[] Res;
-        //static long[,] Dist;
-        static List<long>[] Dist;
         static void Main(string[] args)
         {
-
-            //StreamReader r = new StreamReader(@"./testcase");
-
             var n = long.Parse(Console.ReadLine());
-            //var n = long.Parse(r.ReadLine());
-            Nodes = new List<long>[n].Select(x => x = new List<long>()).ToArray();
-            Dist = new List<long>[n].Select(x => x = new List<long>()).ToArray();
+            Nodes = new List<Edge>[n].Select(x => x = new List<Edge>()).ToArray();
+            seen = new bool[n];
             Res = new long[n];
-
             for (int i = 0; i < n - 1; i++)
             {
-                var a = Console.ReadLine().Split().Select(long.Parse).ToArray();
-                //var a = r.ReadLine().Split().Select(long.Parse).ToArray();
-                // ノード間の接続情報
-                Nodes[a[0] - 1].Add(a[1]);
-                Nodes[a[1] - 1].Add(a[0]);
-                // 2点間の距離
-                Dist[a[0] - 1].Add(a[2] % 2);
-                Dist[a[1] - 1].Add(a[2] % 2);
+                var a = Console.ReadLine().Split().Select(int.Parse).ToArray();
+                Nodes[a[0] - 1].Add(new Edge(a[1], a[2] % 2));
+                Nodes[a[1] - 1].Add(new Edge(a[0], a[2] % 2));
             }
 
-            /*
-            for (int i = 0; i < n; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    Console.Write(string.Join(",", Dist[i, j]));
-                }
-                Console.WriteLine();
-            }
-            */
-
-            dfs(0, 1, 0);
+            dfs(1, 0);
             for (int i = 0; i < n; i++)
             {
                 Console.WriteLine(Res[i]);
             }
         }
 
-
-        static void dfs(long preNode, long nowNode, long distSum)
+        static void dfs(int v, int count)
         {
-            if (distSum % 2 == 0) Res[nowNode - 1] = 0;
-            if (distSum % 2 == 1) Res[nowNode - 1] = 1;
-
-            for (int i = 0; i < Nodes[nowNode - 1].Count; i++)
+            seen[v - 1] = true;
+            Res[v - 1] = count % 2;
+            foreach (var next_v in Nodes[v - 1])
             {
-                var nextNode = Nodes[nowNode - 1][i];
-                if (preNode != nextNode) dfs(nowNode, nextNode, distSum + Dist[nowNode - 1][i]);
+                if (seen[next_v.to - 1]) continue;
+                dfs(next_v.to, count + next_v.weight);
             }
-
-            /*
-            foreach (var nextNode in Nodes[nowNode - 1])
-            {
-                // 前のノードの接続情報は無視する
-                if (preNode != nextNode) dfs(nowNode, nextNode, distSum + Dist[nowNode - 1, nextNode - 1]);
-            }
-            */
         }
     }
 }
