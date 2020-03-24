@@ -5,85 +5,51 @@ namespace ARC031
 {
     class B
     {
-        static char[,] hw;
-        static int num = 0;
-        static int H = 10;
-        static int W = 10;
-
+        static char[][] map;
+        static int num;
         static void Main(string[] args)
         {
-            hw = new char[W, H];
-            for (int h = 0; h < H; h++)
+            //init
+            map = Enumerable.Repeat(0, 10).Select(_ => Console.ReadLine().ToCharArray()).ToArray();
+            for (int i = 0; i < 10; i++)
             {
-                string S = Console.ReadLine();
-                for (int w = 0; w < W; w++)
+                for (int j = 0; j < 10; j++)
                 {
-                    hw[w, h] = S[w];
+                    if (map[i][j] == 'o') { num++; dfs(i, j); }
                 }
             }
 
-            for (int h = 0; h < H; h++)
+            int[] vx = { 1, 0, -1, 0 };
+            int[] vy = { 0, 1, 0, -1 };
+            for (int i = 0; i < 10; i++)
             {
-                for (int w = 0; w < W; w++)
+                for (int j = 0; j < 10; j++)
                 {
-                    if (hw[w, h] == 'o')
+                    //var count = 0;
+                    var sum = "";
+                    for (int k = 0; k < 4; k++)
                     {
-                        num++;
-                        DFS(w, h);
+                        if (0 <= i + vx[k] && i + vx[k] < 10 && 0 <= j + vy[k] && j + vy[k] < 10 && map[i + vx[k]][j + vy[k]] != 'x') sum += map[i + vx[k]][j + vy[k]];
                     }
-                }
-            }
+                    //var sumarray = sum.OrderBy(x => x).ToArray().Distinct();
+                    var sum2 = sum.ToCharArray().Distinct().ToArray();
 
-
-            /*
-            for (int h = 0; h < H; h++)
-            {
-                for (int w = 0; w < W; w++)
-                {
-                    Console.Write(hw[w, h]);
-                }
-                Console.WriteLine();
-            }
-            */
-
-
-            string res = "";
-            for (int i = 1; i <= num; i++)
-            {
-                res += i.ToString();
-            }
-            for (int h = 0; h < H; h++)
-            {
-                string sum = "";
-                for (int w = 0; w < W; w++)
-                {
-                    sum = "";
-                    if (hw[w, h] == 'x')
-                    {
-                        if (w + 1 < W && hw[w + 1, h] != 'x') sum += hw[w + 1, h].ToString();
-                        if (0 <= w - 1 && hw[w - 1, h] != 'x') sum += hw[w - 1, h].ToString();
-                        if (h + 1 < H && hw[w, h + 1] != 'x') sum += hw[w, h + 1].ToString();
-                        if (0 <= h - 1 && hw[w, h - 1] != 'x') sum += hw[w, h - 1].ToString();
-                    }
-                    var sumarray = sum.OrderBy(x => x).ToArray().Distinct();
-                    sum = string.Join("", sumarray);
-
-                    //Console.WriteLine(sum);
-                    if (res == sum) { Console.WriteLine("YES"); return; }
+                    if (sum2.Length == num) { Console.WriteLine("YES"); return; };
                 }
             }
             Console.WriteLine("NO");
         }
 
-        static void DFS(int x, int y)
+        static void dfs(int x, int y)
         {
-            if (hw[x, y] != 'o') { return; }
-            hw[x, y] = (char)('0' + num);
-
-            if (x + 1 < W) DFS(x + 1, y);
-            if (0 <= x - 1) DFS(x - 1, y);
-            if (y + 1 < H) DFS(x, y + 1);
-            if (0 <= y - 1) DFS(x, y - 1);
+            if (map[x][y] != 'o') return;
+            map[x][y] = (char)(num + '0');
+            int[] vx = { 1, 0, -1, 0 };
+            int[] vy = { 0, 1, 0, -1 };
+            for (int j = 0; j < 4; j++)
+            {
+                if (0 <= x + vx[j] && x + vx[j] < 10 && 0 <= y + vy[j] && y + vy[j] < 10) dfs(x + vx[j], y + vy[j]);
+            }
         }
     }
 }
