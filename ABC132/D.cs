@@ -5,31 +5,23 @@ namespace ABC132
 {
     class D
     {
+        static long[,] c;
+        static long mod = 1000000007;
         static void Main(string[] args)
         {
-            long[] input = Console.ReadLine().Split().Select(long.Parse).ToArray();
-            long N = input[0];
-            long K = input[1];
-
-            init(4005);
-
-            long red = 0;
-            long blue = 0;
-            for (long i = 1; i <= K; i++)
+            //input
+            var nk = Console.ReadLine().Split().Select(long.Parse).ToArray();
+            var n = nk[0]; var k = nk[1];
+            init(n);
+            //for i: 0 - k
+            //n-k_C_i * n-1_C_i
+            for (long i = 1; i <= k; i++)
             {
-                if (N - K + 1 < i) red = 0;
-                else red = CalcCombination(N - K + 1, i);
-
-                blue = CalcCombination(K - 1, i - 1);
-
-                Console.WriteLine((blue * red) % 1000000007);
-
+                if (n - k + 1 < i) Console.WriteLine(0);
+                else Console.WriteLine((CalcCombination(n - k + 1, i) * CalcCombination(k - 1, i - 1)) % mod);
             }
-
         }
 
-        // Combination
-        static long[,] c;
         public static long[,] init(long x)
         {
             c = new long[x + 5, x + 5];
@@ -39,7 +31,7 @@ namespace ABC132
                 for (long j = 0; j <= i; j++)
                 {
                     if (j == 0) c[i, j] = c[i - 1, j];
-                    else c[i, j] = (c[i - 1, j] + c[i - 1, j - 1]) % 1000000007;
+                    else c[i, j] = (c[i - 1, j] + c[i - 1, j - 1]) % mod;
                 }
             }
             return c;
@@ -49,5 +41,6 @@ namespace ABC132
         {
             return c[n, k];
         }
+
     }
 }
