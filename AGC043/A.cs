@@ -9,54 +9,43 @@ namespace AGC043
         static int H;
         static int W;
         static char[][] map;
-        static int res;
+        static int[,] dp;
         static void Main(string[] args)
         {
             var HW = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            H = HW[0];
-            W = HW[1];
-            res = int.MaxValue;
+            H = HW[0]; W = HW[1];
             map = Enumerable.Repeat(0, H).Select(_ => Console.ReadLine().ToCharArray()).ToArray();
-
-            dfs(0, 0, 0);
-
-            Console.WriteLine(res);
-        }
-
-        // h , w -> 0 ~ 99 H,W -> 2 
-        // conflg , 1 -> 連続している, 0 -> 連続していない
-        static void dfs(int h, int w, int count)
-        {
-
-            if (h == H - 1 && w == W - 1) { res = Math.Min(res, count); }
-
-            if (h == 0 && w == 0 && map[h][w] == '#' && map[h + 1][w] == '.' && map[h][w + 1] == '.')
+            dp = new int[H, W];
+            for (int h = 0; h < H; h++)
             {
-                count++;
+                for (int w = 0; w < W; w++)
+                {
+                    dp[h, w] = int.MaxValue;
+                }
             }
 
-            var tmph = h;
-            var tmpw = w;
-            // 右にしろ下にしろ、＃だったらワープさせれば良い
-            if (h + 1 < H && map[h + 1][w] == '#')
-            {
-                tmph = h;
-                tmpw = w;
-                while (tmph + 1 < H && map[tmph + 1][tmpw] == '#') { tmph++; }
-                while (tmpw + 1 < W && map[tmph][tmpw + 1] == '#') { tmpw++; }
-                dfs(tmph, tmpw, count + 1);
-            }
+            if (map[0][0] == '#') dp[0, 0] = 1;
+            else dp[0, 0] = 0;
 
-            if (w + 1 < W && map[h][w + 1] == '#')
+
+            var dh = new int[] { 0, 1 };
+            var dw = new int[] { 1, 0 };
+            for (int h = 0; h < H; h++)
             {
-                tmph = h;
-                tmpw = w;
-                while (tmpw + 1 < W && map[tmph][tmpw + 1] == '#') { tmpw++; }
-                while (tmph + 1 < H && map[tmph + 1][tmpw] == '#') { tmph++; }
-                dfs(tmph, tmpw, count + 1);
+                for (int w = 0; w < W; w++)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        int nh = h + dh[i]; int nw = w + dw[i];
+                        if (H <= nh || W <= nw) continue;
+                        int add = 0;
+                        if (map[nh][nw] == '#' && map[h][w] == '.') add = 1;
+                        dp[nh, nw] = Math.Min(dp[nh, nw], dp[h, w] + add);
+                    }
+
+                }
             }
-            if (h + 1 < H && map[h + 1][w] == '.') dfs(h + 1, w, count); // 下
-            if (w + 1 < W && map[h][w + 1] == '.') dfs(h, w + 1, count); // 下
+            Console.WriteLine(dp[H - 1, W - 1]);
         }
     }
 }
