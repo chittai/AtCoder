@@ -10,37 +10,22 @@ namespace ABC134
         {
             int N = int.Parse(Console.ReadLine());
             int[] a = Console.ReadLine().Split().Select(int.Parse).ToArray();
-
-            int[] b = new int[N + 1];
-            for (int i = N; 0 < i; i--)
+            var iList = new List<int>();
+            var res = new int[N + 1];
+            for (int i = N; i > 0; i--)
             {
-                int count = 0;
-                int j = 1;
+                var j = 1;
+                var sum = 0;
                 while (i * j <= N)
                 {
-                    count += b[i * j];
+                    sum += res[i * j];
                     j++;
                 }
-
-                if (count % 2 != a[i - 1]) { b[i] = 1; }
-                else { b[i] = 0; }
+                if (sum % 2 != a[i - 1]) { res[i] = 1; iList.Add(i); }
             }
 
-            List<int> list = new List<int>();
-            int index = 0;
-            foreach (var item in b)
-            {
-                if (item == 1) { list.Add(index); }
-                index++;
-            }
-
-            Console.WriteLine(list.Count());
-            foreach (var item in list)
-            {
-                Console.Write(item);
-                Console.Write(' ');
-            }
-            if (list.Count != 0) Console.WriteLine();
+            Console.WriteLine(iList.Count);
+            if (iList.Count != 0) Console.WriteLine(string.Join(" ", iList));
         }
     }
 }
