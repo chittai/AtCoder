@@ -1,0 +1,23 @@
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace ABC164
+{
+    class C
+    {
+        static void Main(string[] args)
+        {
+            var N = int.Parse(Console.ReadLine());
+            var S = new string[N];
+            //Dictionary<string, int> dict = new Dictionary<string, int>();
+            for (int i = 0; i < N; i++)
+            {
+                S[i] = Console.ReadLine();
+            }
+
+            Console.WriteLine(S.Distinct().Count());
+
+        }
+    }
+}

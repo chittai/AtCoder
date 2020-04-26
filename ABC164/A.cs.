@@ -1,0 +1,17 @@
+﻿using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace ABC164
+{
+    class A
+    {
+        static void Main(string[] args)
+        {
+            var SW = Console.ReadLine().Split().Select(int.Parse).ToArray();
+            if (SW[0] <= SW[1]) Console.WriteLine("unsafe");
+            else Console.WriteLine("safe");
+
+        }
+    }
+}
