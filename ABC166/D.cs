@@ -4,47 +4,39 @@ using System.Collections.Generic;
 
 namespace ABC166
 {
-    class C
+    class D
     {
         static void Main(string[] args)
         {
             long X = long.Parse(Console.ReadLine());
-
-            bool isBreak = false;
-            for (int i = 1; i <= Math.Sqrt(X); i++)
+            // A- B = 1 とする。
+            // A^5 - B^5 = X の時、まずAとBが取りうる範囲を決める。
+            /*
+            long ans = 0;
+            long A = 1;
+            long B = 0;
+            while (ans < X)
             {
-                long x = 0;
-                long y = 0;
-                if (X % i == 0) { x = i; y = X / i; }
-                else continue;
-
-                long z = 1;
-                for (int j = 1; j < 5; j++)
+                if (X < Math.Pow(A, 5) - Math.Pow(B, 5))
                 {
-                    if (z < X) z *= x;
-                    else { isBreak = true; break; }
+                    break;
                 }
+                A++;
+                B++;
+            }
+            */
 
-                z = 1;
-                if (isBreak)
+            for (long i = -120; i < 120; i++)
+            {
+                for (long j = -120; j < 120; j++)
                 {
-                    var res = 0;
-                    for (int j = 1; j <= 5; j++)
+                    if (X == Math.Pow(i, 5) - Math.Pow(j, 5))
                     {
-                        if (z < X)
-                        {
-                            z *= x;
-                            res *= res;
-                        }
-                        if (z - res == X) { Console.WriteLine("{0} {1}", z, res); return; }
-                        res--;
+                        Console.WriteLine("{0} {1}", i, j); return;
                     }
 
                 }
-
             }
-
-
         }
     }
 }
