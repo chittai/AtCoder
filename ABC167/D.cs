@@ -21,6 +21,8 @@ namespace ABC167
                 B[i] = A[B[i - 1] - 1];
             }
 
+            if (K <= N) { Console.WriteLine(B[K]); return; }
+
             long index = 0;
             for (int i = 1; i < N + 1; i++)
             {
