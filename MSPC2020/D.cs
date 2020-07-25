@@ -12,10 +12,10 @@ namespace MSPC2020
             //var LRd = Console.ReadLine().Split().Select(int.Parse).ToArray();
             //var X = int.Parse(Console.ReadLine());
             //var a = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            var N = int.Parse(Console.ReadLine());
-            var A = Console.ReadLine().Split().Select(int.Parse).ToArray();
-            var total = 1000;
-            var stock = 0;
+            var N = long.Parse(Console.ReadLine());
+            var A = Console.ReadLine().Split().Select(long.Parse).ToArray();
+            var total = 1000L;
+            var stock = 0L;
             for (int i = 0; i < N - 1; i++)
             {
                 var now = A[i];
