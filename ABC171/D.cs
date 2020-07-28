@@ -18,23 +18,29 @@ namespace ABC171
             var Q = long.Parse(Console.ReadLine());
             var BC = Enumerable.Repeat(0, (int)Q).Select(_ => Console.ReadLine().Split().Select(long.Parse).ToArray()).ToArray();
 
-            var count = new int[100010];
+            var count = new long[100010];
             for (int i = 0; i < A.Length; i++)
             {
                 count[A[i]]++;
             }
 
-            var sum = new int[100010];
+            var sum = new long[100010];
             for (int i = 0; i < count.Length; i++)
             {
                 sum[i] = count[i] * i;
             }
 
-
             var Asum = A.Sum();
+
             for (int i = 0; i < Q; i++)
             {
-                Console.WriteLine(Asum - sum[BC[i][0]] + sum[BC[i][1]]);
+                Asum = Asum - sum[BC[i][0]] + count[BC[i][0]] * BC[i][1];
+                sum[BC[i][0]] = 0;
+                sum[BC[i][1]] += count[BC[i][0]] * BC[i][1];
+                count[BC[i][1]] += count[BC[i][0]];
+                count[BC[i][0]] = 0;
+
+                Console.WriteLine(Asum);
             }
 
         }
