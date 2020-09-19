@@ -9,52 +9,51 @@ namespace ABC179
     {
         static void Main(string[] args)
         {
-            //var NXT = Console.ReadLine().Split().Select(double.Parse).ToArray();
-            //var N = long.Parse(Console.ReadLine());
             var NXM = Console.ReadLine().Split().Select(long.Parse).ToArray();
             var N = NXM[0]; var X = NXM[1]; var M = NXM[2];
-            //var LR = Enumerable.Repeat(0, (int)K).Select(_ => Console.ReadLine().Split().Select(long.Parse).ToArray()).ToArray();
-            //var L = Console.ReadLine().Split().Select(long.Parse).OrderBy(x => x).ToArray();
-            //var ans = false;
-            //var ans = 0;
-            var temp = X;
-            var count = 0L;
+
+            var a_ = X;
+            var sum = X;
+            var count = 1L;
             var Count = new long[M];
-            for (int i = 1; i < M; i++)
+            Count[a_]++;
+
+            for (int i = 0; i < M; i++)
             {
-                //if (M <= temp * X % M) break;
-                temp = (temp * X) % M;
-                Count[temp]++;
-                //count
+                a_ = (a_ * a_) % M;
+                if (Count[a_] + 1 == 3) break;
+                Count[a_]++;
+                count++;
+                sum += a_;
             }
 
-            count = Count.Count(x => x != 0);
+            //Console.WriteLine(count);
 
-            var n = N / count;
+            var ans = 0L;
+            var a = N / count;
+            var b = N % count;
+            ans += a * sum;
 
-            var sum = 0L;
-            if (n == 0)
+            //Console.WriteLine(ans);
+
+            if (0 < b)
             {
-                var x = 0;
-                for (int i = 0; i < M; i++)
+                ans += X;
+                a_ = X;
+                for (int i = 0; i < b - 1; i++)
                 {
-                    if (Count[i] != 0)
-                    {
-                        x++;
-                        sum += Count[i];
-                    }
-                    if (N <= x) break;
+                    a_ = (a_ * a_) % M;
+                    ans += a_;
+                    //Console.WriteLine("ans: " + ans);
                 }
             }
-            else
-            {
-                
-            }
 
-
-            Console.WriteLine(count * n);
+            //Console.WriteLine(count);
             //Console.WriteLine(string.Join(" ", Count));
-            //Console.WriteLine(ans);
+            Console.WriteLine(ans);
         }
+
+        // 循環開始・終了位置
+
     }
 }
