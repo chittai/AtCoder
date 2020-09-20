@@ -9,54 +9,52 @@ namespace ABC177
     {
         static void Main(string[] args)
         {
-            var NM = Console.ReadLine().Split().Select(long.Parse).ToArray();
+            var NM = Console.ReadLine().Split().Select(int.Parse).ToArray();
             var N = NM[0]; var M = NM[1];
-            var CA = Enumerable.Repeat(0, (int)M).Select(_ => Console.ReadLine().Split().Select(long.Parse).ToArray()).ToArray();
+            var CA = Enumerable.Repeat(0, (int)M).Select(_ => Console.ReadLine().Split().Select(int.Parse).ToArray()).OrderBy(x => x[0]).ToArray();
 
-            var group = new long[N];
-            var gnum = 1L;
-
-            // Console.WriteLine(CA[0][0]);
-
+            UF uf = new UF(N);
             for (int i = 0; i < M; i++)
             {
-                if (group[CA[i][0] - 1] == 0 && group[CA[i][1] - 1] == 0)
-                {
-                    group[CA[i][0] - 1] = gnum;
-                    group[CA[i][1] - 1] = gnum;
-                    gnum++;
-                }
-                else
-                {
-                    if (group[CA[i][0] - 1] == 0) group[CA[i][0] - 1] = group[CA[i][1] - 1];
-                    if (group[CA[i][1] - 1] == 0) group[CA[i][1] - 1] = group[CA[i][0] - 1];
-                }
+                uf.Unite(CA[i][0] - 1, CA[i][1] - 1);
             }
-            //Console.WriteLine(string.Join(" ", group));
 
-            var gcount = new long[N];
+            //var ans = 0;
+            var count = new int[uf.parent.Max() + 1];
             for (int i = 0; i < N; i++)
             {
-                if (group[i] != 0) gcount[group[i] - 1]++;
+                count[uf.parent[i]]++;
             }
 
-            gcount = gcount.OrderBy(x => x).ToArray();
+            //Console.WriteLine(string.Join(" ", uf.parent));
+            Console.WriteLine(count.Max());
 
-            //Console.WriteLine(string.Join(" ", gcount));
+        }
+    }
 
-            var sum = 0L;
-            var isFirst = true;
-            for (int i = 0; i < N; i++)
-            {
-                if (gcount[i] == 0) continue;
-                if (isFirst) { sum += gcount[i]; isFirst = false; continue; }
-                sum += gcount[i] - sum;
-            }
+    class UF
+    {
+        public int[] parent;
+        public UF(int N) { parent = Enumerable.Range(0, N).ToArray(); }
 
-            //Console.WriteLine(string.Join(" ", group));
-            if (sum == 0) sum = 1;
-            Console.WriteLine(sum);
+        int root(int x)
+        {
+            if (parent[x] == x) return x;
+            return parent[x] = root(parent[x]);
+        }
 
+        public void Unite(int x, int y)
+        {
+            int rx = root(x);
+            int ry = root(y);
+            if (rx == ry) return;
+            parent[rx] = ry;
+        }
+        public bool CheckSame(int x, int y)
+        {
+            int rx = root(x);
+            int ry = root(y);
+            return rx == ry;
         }
     }
 }
